@@ -1,129 +1,150 @@
-type Appointment = record {
+type Arbitrator = record {
   id : nat64;
-  patient_id : nat64;
-  multimedia_content : opt MultiMediaContent;
-  date_time : nat64;
-  doctor_id : nat64;
-  reason : text;
-};
-type DocIdentity = record { id : nat64; "principal" : text };
-type Doctor = record {
-  id : nat64;
-  age : nat64;
-  sex : text;
-  country : text;
-  city : text;
   name : text;
-  licence_no : nat64;
-  docidentity_id : nat64;
-  specialism : text;
-  id_no : nat64;
+  email : text;
+  expertise : text;
+  is_active : bool;
+  phone : text;
+  arbitratoridentity_id : text;
+};
+type Buyer = record {
+  id : nat64;
+  name : text;
+  email : text;
+  purchased_land_titles : vec nat64;
+  phone : text;
+  buyeridentity_id : text;
+};
+type Dispute = record {
+  id : nat64;
+  raised_by : nat64;
+  created_at : nat64;
+  comment : text;
+  land_title_id : nat64;
+  resolved_at : opt nat64;
 };
 type Error = variant {
+  TransferConflict : record { msg : text };
   InvalidInput : record { msg : text };
-  AppointmentConflict : record { msg : text };
   NotFound : record { msg : text };
   Unauthorized : record { msg : text };
   AlreadyExists : record { msg : text };
 };
-type Identity = record { id : nat64; "principal" : text };
-type MedicalRecord = record {
+type GovernmentOfficial = record {
   id : nat64;
-  patient_id : nat64;
-  lab_results : text;
-  treatment_history : text;
+  name : text;
+  email : text;
+  officialidentity_id : text;
+  is_active : bool;
+  phone : text;
+  department : text;
 };
-type Message = record {
+type LandTitle = record {
   id : nat64;
-  receiver_id : nat64;
-  content : text;
-  multimedia_content : opt MultiMediaContent;
-  sender_id : nat64;
+  landowner_id : nat64;
+  size : float64;
+  description : text;
+  is_available : bool;
+  price : nat64;
+  registered_at : nat64;
+  location : text;
 };
-type MultiMediaContent = record {
-  image_url : opt text;
-  audio_url : opt text;
-  video_url : opt text;
-};
-type Patient = record { id : nat64; username : text; identity_id : nat64 };
-type Report = record {
+type LandTransfer = record {
   id : nat64;
-  patient_id : nat64;
-  username : text;
-  multimedia_content : opt MultiMediaContent;
-  prescription : text;
-  diagnostic : text;
-  recommendations : text;
-  symptoms : text;
+  landowner_id : nat64;
+  agreed_price : nat64;
+  approved_at : opt nat64;
+  transfer_status : text;
+  buyer_id : nat64;
+  initiated_at : nat64;
+  land_title_id : nat64;
 };
-type Result = variant { Ok : DocIdentity; Err : Error };
-type Result_1 = variant { Ok : Doctor; Err : Error };
-type Result_2 = variant { Ok : Identity; Err : Error };
-type Result_3 = variant { Ok : Report; Err : Error };
-type Result_4 = variant { Ok : MedicalRecord; Err : Error };
-type Result_5 = variant { Ok; Err : Error };
-type Result_6 = variant { Ok : Appointment; Err : Error };
-type Result_7 = variant { Ok : Message; Err : Error };
-type Result_8 = variant { Ok : Patient; Err : Error };
+type Landowner = record {
+  id : nat64;
+  name : text;
+  email : text;
+  is_verified : bool;
+  phone : text;
+  land_titles : vec nat64;
+  landowneridentity_id : text;
+};
+type Result = variant { Ok : Arbitrator; Err : Error };
+type Result_1 = variant { Ok : Buyer; Err : Error };
+type Result_2 = variant { Ok : Dispute; Err : Error };
+type Result_3 = variant { Ok : GovernmentOfficial; Err : Error };
+type Result_4 = variant { Ok : LandTitle; Err : Error };
+type Result_5 = variant { Ok : LandTransfer; Err : Error };
+type Result_6 = variant { Ok : Landowner; Err : Error };
+type Result_7 = variant { Ok : TransactionRecord; Err : Error };
+type Result_8 = variant { Ok; Err : Error };
+type TransactionRecord = record {
+  id : nat64;
+  transaction_type : text;
+  timestamp : nat64;
+  details : text;
+  land_title_id : nat64;
+};
 service : {
-  add_docidentity : (text) -> (Result);
-  add_doctor : (nat64, text, nat64, text, nat64, nat64, text, text, text) -> (
-      Result_1,
-    );
-  add_identity : (text) -> (Result_2);
-  add_report : (nat64, text, text, text, text, text, opt MultiMediaContent) -> (
-      Result_3,
-    );
-  create_medical_record : (nat64, nat64, text, text) -> (Result_4);
-  delete_doctor : (nat64) -> (Result_5);
-  delete_medical_record : (nat64) -> (Result_5);
-  delete_message : (nat64) -> (Result_5);
-  delete_report : (nat64) -> (Result_5);
-  get_appointment : (nat64) -> (Result_6) query;
-  get_docidentity : (nat64) -> (Result_2) query;
-  get_doctor : (nat64) -> (Result_1) query;
-  get_identity : (nat64) -> (Result_2) query;
-  get_medical_record : (nat64) -> (Result_4) query;
-  get_message : (nat64) -> (Result_7) query;
-  get_patient : (nat64) -> (Result_8) query;
-  get_report : (nat64) -> (Result_3) query;
-  list_appointments : () -> (vec Appointment) query;
-  list_docidentities : () -> (vec Identity) query;
-  list_doctors : () -> (vec Doctor) query;
-  list_identities : () -> (vec Identity) query;
-  list_medical_records : () -> (vec MedicalRecord) query;
-  list_messages : () -> (vec Message) query;
-  list_reports : () -> (vec Report) query;
-  register_patient : (text, nat64) -> (Result_8);
-  schedule_appointment : (nat64, nat64, nat64, text, opt MultiMediaContent) -> (
+  add_arbitrator : (text, text, text, text, text) -> (Result);
+  add_buyer : (text, text, text, text) -> (Result_1);
+  add_dispute : (nat64, nat64, text) -> (Result_2);
+  add_government_official : (text, text, text, text, text) -> (Result_3);
+  add_land_title : (nat64, text, float64, text, nat64) -> (Result_4);
+  add_land_transfer : (nat64, nat64, nat64, nat64) -> (Result_5);
+  add_landowner : (text, text, text, text) -> (Result_6);
+  add_transaction_record : (nat64, text, text) -> (Result_7);
+  delete_arbitrator : (nat64) -> (Result_8);
+  delete_buyer : (nat64) -> (Result_8);
+  delete_dispute : (nat64) -> (Result_8);
+  delete_government_official : (nat64) -> (Result_8);
+  delete_land_title : (nat64) -> (Result_8);
+  delete_land_transfer : (nat64) -> (Result_8);
+  delete_landowner : (nat64) -> (Result_8);
+  delete_transaction_record : (nat64) -> (Result_8);
+  get_arbitrator : (nat64) -> (Result) query;
+  get_buyer : (nat64) -> (Result_1) query;
+  get_dispute : (nat64) -> (Result_2) query;
+  get_government_official : (nat64) -> (Result_3) query;
+  get_land_title : (nat64) -> (Result_4) query;
+  get_land_transfer : (nat64) -> (Result_5) query;
+  get_landowner : (nat64) -> (Result_6) query;
+  get_transaction_record : (nat64) -> (Result_7) query;
+  update_arbitrator : (
+      nat64,
+      opt text,
+      opt text,
+      opt text,
+      opt text,
+      opt bool,
+    ) -> (Result);
+  update_buyer : (nat64, opt text, opt text, opt text) -> (Result_1);
+  update_dispute : (nat64, opt text, opt nat64) -> (Result_2);
+  update_government_official : (
+      nat64,
+      opt text,
+      opt text,
+      opt text,
+      opt text,
+      opt bool,
+    ) -> (Result_3);
+  update_land_title : (
+      nat64,
+      opt text,
+      opt float64,
+      opt text,
+      opt nat64,
+      opt bool,
+    ) -> (Result_4);
+  update_land_transfer : (
+      nat64,
+      opt nat64,
+      opt nat64,
+      opt nat64,
+      opt text,
+      opt nat64,
+    ) -> (Result_5);
+  update_landowner : (nat64, opt text, opt text, opt text, opt bool) -> (
       Result_6,
     );
-  send_message : (nat64, nat64, text, opt MultiMediaContent) -> (Result_7);
-  send_reminder_to_patient : (nat64, text, opt MultiMediaContent) -> (Result_7);
-  update_doctor : (
-      nat64,
-      nat64,
-      text,
-      nat64,
-      text,
-      nat64,
-      nat64,
-      text,
-      text,
-      text,
-    ) -> (Result_1);
-  update_medical_record : (nat64, nat64, text, text) -> (Result_4);
-  update_message : (nat64, nat64, nat64, text, opt MultiMediaContent) -> (
-      Result_7,
-    );
-  update_report : (
-      nat64,
-      nat64,
-      text,
-      text,
-      text,
-      text,
-      text,
-      opt MultiMediaContent,
-    ) -> (Result_3);
+  update_transaction_record : (nat64, opt text, opt text) -> (Result_7);
 }
