@@ -223,6 +223,98 @@ impl BoundedStorable for TransactionRecord {
     const IS_FIXED_SIZE: bool = false;
 }
 
+// Define BuyerIdentity struct
+#[derive(candid::CandidType, Serialize, Deserialize, Default, Clone)]
+struct BuyerIdentity {
+    id: u64,
+    principal: String, // Principal associated with the buyer
+}
+
+// Implementation for BuyerIdentity
+impl Storable for BuyerIdentity {
+    fn to_bytes(&self) -> Cow<[u8]> {
+        Cow::Owned(Encode!(self).unwrap())
+    }
+
+    fn from_bytes(bytes: Cow<[u8]>) -> Self {
+        Decode!(bytes.as_ref(), Self).unwrap()
+    }
+}
+
+impl BoundedStorable for BuyerIdentity {
+    const MAX_SIZE: u32 = 1024;
+    const IS_FIXED_SIZE: bool = false;
+}
+
+// Define LandownerIdentity struct
+#[derive(candid::CandidType, Serialize, Deserialize, Default, Clone)]
+struct LandownerIdentity {
+    id: u64,
+    principal: String, // Principal associated with the landowner
+}
+
+// Implementation for LandownerIdentity
+impl Storable for LandownerIdentity {
+    fn to_bytes(&self) -> Cow<[u8]> {
+        Cow::Owned(Encode!(self).unwrap())
+    }
+
+    fn from_bytes(bytes: Cow<[u8]>) -> Self {
+        Decode!(bytes.as_ref(), Self).unwrap()
+    }
+}
+
+impl BoundedStorable for LandownerIdentity {
+    const MAX_SIZE: u32 = 1024;
+    const IS_FIXED_SIZE: bool = false;
+}
+
+// Define OfficialIdentity struct
+#[derive(candid::CandidType, Serialize, Deserialize, Default, Clone)]
+struct OfficialIdentity {
+    id: u64,
+    principal: String, // Principal associated with the official
+}
+
+// Implementation for OfficialIdentity
+impl Storable for OfficialIdentity {
+    fn to_bytes(&self) -> Cow<[u8]> {
+        Cow::Owned(Encode!(self).unwrap())
+    }
+
+    fn from_bytes(bytes: Cow<[u8]>) -> Self {
+        Decode!(bytes.as_ref(), Self).unwrap()
+    }
+}
+
+impl BoundedStorable for OfficialIdentity {
+    const MAX_SIZE: u32 = 1024;
+    const IS_FIXED_SIZE: bool = false;
+}
+
+// Define ArbitratorIdentity struct
+#[derive(candid::CandidType, Serialize, Deserialize, Default, Clone)]
+struct ArbitratorIdentity {
+    id: u64,
+    principal: String, // Principal associated with the arbitrator
+}
+
+// Implementation for ArbitratorIdentity
+impl Storable for ArbitratorIdentity {
+    fn to_bytes(&self) -> Cow<[u8]> {
+        Cow::Owned(Encode!(self).unwrap())
+    }
+
+    fn from_bytes(bytes: Cow<[u8]>) -> Self {
+        Decode!(bytes.as_ref(), Self).unwrap()
+    }
+}
+
+impl BoundedStorable for ArbitratorIdentity {
+    const MAX_SIZE: u32 = 1024;
+    const IS_FIXED_SIZE: bool = false;
+}
+
 // Error handling
 #[derive(candid::CandidType, Deserialize, Serialize)]
 enum Error {
@@ -282,6 +374,22 @@ thread_local! {
     static TRANSACTION_STORAGE: RefCell<StableBTreeMap<u64, TransactionRecord, Memory>> =
         RefCell::new(StableBTreeMap::init(
             MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(8)))
+    ));
+    static BUYER_IDENTITY_STORAGE: RefCell<StableBTreeMap<u64, BuyerIdentity, Memory>> =
+    RefCell::new(StableBTreeMap::init(
+        MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(10)))
+    ));  
+    static LANDOWNER_IDENTITY_STORAGE: RefCell<StableBTreeMap<u64, LandownerIdentity, Memory>> =
+    RefCell::new(StableBTreeMap::init(
+        MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(11)))
+    ));
+    static OFFICIAL_IDENTITY_STORAGE: RefCell<StableBTreeMap<u64, OfficialIdentity, Memory>> =
+        RefCell::new(StableBTreeMap::init(
+            MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(12)))
+    ));
+    static ARBITRATOR_IDENTITY_STORAGE: RefCell<StableBTreeMap<u64, ArbitratorIdentity, Memory>> =
+        RefCell::new(StableBTreeMap::init(
+            MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(13)))
     ));
 }
 
@@ -847,6 +955,260 @@ fn delete_transaction_record(id: u64) -> Result<(), Error> {
     }
 }
 
+// Function to add a buyer identity
+#[ic_cdk::update]
+fn add_buyer_identity(principal: String) -> Result<BuyerIdentity, Error> {
+    // Validate input data
+    if principal.is_empty() {
+        return Err(Error::InvalidInput {
+            msg: "Principal cannot be empty".to_string(),
+        });
+    }
+
+    // Check if the principal already exists
+    let exists = BUYER_IDENTITY_STORAGE.with(|service| {
+        service
+            .borrow()
+            .iter()
+            .any(|(_, buyeridentity)| buyeridentity.principal == principal)
+    });
+
+    if exists {
+        return Err(Error::AlreadyExists {
+            msg: "Principal already exists".to_string(),
+        });
+    }
+
+    let id = ID_COUNTER
+        .with(|counter| {
+            let current_value = *counter.borrow().get();
+            counter.borrow_mut().set(current_value + 1)
+        })
+        .expect("cannot increment id counter");
+
+    let buyeridentity = BuyerIdentity { id, principal };
+
+    BUYER_IDENTITY_STORAGE.with(|service| service.borrow_mut().insert(id, buyeridentity.clone()));
+    Ok(buyeridentity)
+}
+
+// Function to get a buyer identity by its ID
+#[ic_cdk::query]
+fn get_buyer_identity(buyeridentity_id: u64) -> Result<BuyerIdentity, Error> {
+    match BUYER_IDENTITY_STORAGE.with(|storage| storage.borrow().get(&buyeridentity_id)) {
+        Some(buyeridentity) => Ok(buyeridentity.clone()),
+        None => Err(Error::NotFound {
+            msg: format!("BuyerIdentity with id={} not found", buyeridentity_id),
+        }),
+    }
+}
+
+// Function to delete a buyer identity
+#[ic_cdk::update]
+fn delete_buyer_identity(buyeridentity_id: u64) -> Result<(), Error> {
+    match BUYER_IDENTITY_STORAGE.with(|service| service.borrow_mut().remove(&buyeridentity_id)) {
+        Some(_) => Ok(()),
+        None => Err(Error::NotFound {
+            msg: format!("BuyerIdentity with id={} not found", buyeridentity_id),
+        }),
+    }
+}
+
+// Function to add a landowner identity
+#[ic_cdk::update]
+fn add_landowner_identity(principal: String) -> Result<LandownerIdentity, Error> {
+    // Validate input data
+    if principal.is_empty() {
+        return Err(Error::InvalidInput {
+            msg: "Principal cannot be empty".to_string(),
+        });
+    }
+
+    // Check if the principal already exists
+    let exists = LANDOWNER_IDENTITY_STORAGE.with(|service| {
+        service
+            .borrow()
+            .iter()
+            .any(|(_, landowneridentity)| landowneridentity.principal == principal)
+    });
+
+    if exists {
+        return Err(Error::AlreadyExists {
+            msg: "Principal already exists".to_string(),
+        });
+    }
+
+    let id = ID_COUNTER
+        .with(|counter| {
+            let current_value = *counter.borrow().get();
+            counter.borrow_mut().set(current_value + 1)
+        })
+        .expect("cannot increment id counter");
+
+    let landowneridentity = LandownerIdentity { id, principal };
+
+    LANDOWNER_IDENTITY_STORAGE.with(|service| service.borrow_mut().insert(id, landowneridentity.clone()));
+    Ok(landowneridentity)
+}
+
+// Function to get a landowner identity by its ID
+#[ic_cdk::query]
+fn get_landowner_identity(landowneridentity_id: u64) -> Result<LandownerIdentity, Error> {
+    match LANDOWNER_IDENTITY_STORAGE.with(|storage| storage.borrow().get(&landowneridentity_id)) {
+        Some(landowneridentity) => Ok(landowneridentity.clone()),
+        None => Err(Error::NotFound {
+            msg: format!("LandownerIdentity with id={} not found", landowneridentity_id),
+        }),
+    }
+}
+
+// Function to delete a landowner identity
+#[ic_cdk::update]
+fn delete_landowner_identity(landowneridentity_id: u64) -> Result<(), Error> {
+    match LANDOWNER_IDENTITY_STORAGE.with(|service| service.borrow_mut().remove(&landowneridentity_id)) {
+        Some(_) => Ok(()),
+        None => Err(Error::NotFound {
+            msg: format!("LandownerIdentity with id={} not found", landowneridentity_id),
+        }),
+    }
+}
+
+// Function to add an official identity
+#[ic_cdk::update]
+fn add_official_identity(principal: String) -> Result<OfficialIdentity, Error> {
+    // Validate input data
+    if principal.is_empty() {
+        return Err(Error::InvalidInput {
+            msg: "Principal cannot be empty".to_string(),
+        });
+    }
+
+    // Check if the principal already exists
+    let exists = OFFICIAL_IDENTITY_STORAGE.with(|service| {
+        service
+            .borrow()
+            .iter()
+            .any(|(_, officialidentity)| officialidentity.principal == principal)
+    });
+
+    if exists {
+        return Err(Error::AlreadyExists {
+            msg: "Principal already exists".to_string(),
+        });
+    }
+
+    let id = ID_COUNTER
+        .with(|counter| {
+            let current_value = *counter.borrow().get();
+            counter.borrow_mut().set(current_value + 1)
+        })
+        .expect("cannot increment id counter");
+
+    let officialidentity = OfficialIdentity { id, principal };
+
+    OFFICIAL_IDENTITY_STORAGE.with(|service| service.borrow_mut().insert(id, officialidentity.clone()));
+    Ok(officialidentity)
+}
+
+// Function to get an official identity by its ID
+#[ic_cdk::query]
+fn get_official_identity(officialidentity_id: u64) -> Result<OfficialIdentity, Error> {
+    match OFFICIAL_IDENTITY_STORAGE.with(|storage| storage.borrow().get(&officialidentity_id)) {
+        Some(officialidentity) => Ok(officialidentity.clone()),
+        None => Err(Error::NotFound {
+            msg: format!("OfficialIdentity with id={} not found", officialidentity_id),
+        }),
+    }
+}
+
+// Function to delete an official identity
+#[ic_cdk::update]
+fn delete_official_identity(officialidentity_id: u64) -> Result<(), Error> {
+    match OFFICIAL_IDENTITY_STORAGE.with(|service| service.borrow_mut().remove(&officialidentity_id)) {
+        Some(_) => Ok(()),
+        None => Err(Error::NotFound {
+            msg: format!("OfficialIdentity with id={} not found", officialidentity_id),
+        }),
+    }
+}
+
+// Function to add an arbitrator identity
+#[ic_cdk::update]
+fn add_arbitrator_identity(principal: String) -> Result<ArbitratorIdentity, Error> {
+    // Validate input data
+    if principal.is_empty() {
+        return Err(Error::InvalidInput {
+            msg: "Principal cannot be empty".to_string(),
+        });
+    }
+
+    // Check if the principal already exists
+    let exists = ARBITRATOR_IDENTITY_STORAGE.with(|service| {
+        service
+            .borrow()
+            .iter()
+            .any(|(_, arbitratoridentity)| arbitratoridentity.principal == principal)
+    });
+
+    if exists {
+        return Err(Error::AlreadyExists {
+            msg: "Principal already exists".to_string(),
+        });
+    }
+
+    let id = ID_COUNTER
+        .with(|counter| {
+            let current_value = *counter.borrow().get();
+            counter.borrow_mut().set(current_value + 1)
+        })
+        .expect("cannot increment id counter");
+
+    let arbitratoridentity = ArbitratorIdentity { id, principal };
+
+    ARBITRATOR_IDENTITY_STORAGE.with(|service| service.borrow_mut().insert(id, arbitratoridentity.clone()));
+    Ok(arbitratoridentity)
+}
+
+// Function to get an arbitrator identity by its ID
+#[ic_cdk::query]
+fn get_arbitrator_identity(arbitratoridentity_id: u64) -> Result<ArbitratorIdentity, Error> {
+    match ARBITRATOR_IDENTITY_STORAGE.with(|storage| storage.borrow().get(&arbitratoridentity_id)) {
+        Some(arbitratoridentity) => Ok(arbitratoridentity.clone()),
+        None => Err(Error::NotFound {
+            msg: format!("ArbitratorIdentity with id={} not found", arbitratoridentity_id),
+        }),
+    }
+}
+
+// Function to delete an arbitrator identity
+#[ic_cdk::update]
+fn delete_arbitrator_identity(arbitratoridentity_id: u64) -> Result<(), Error> {
+    match ARBITRATOR_IDENTITY_STORAGE.with(|service| service.borrow_mut().remove(&arbitratoridentity_id)) {
+        Some(_) => Ok(()),
+        None => Err(Error::NotFound {
+            msg: format!("ArbitratorIdentity with id={} not found", arbitratoridentity_id),
+        }),
+    }
+}
+
+// Helper function to retrieve LandownerIdentity by ID
+fn _get_landowner_identity(landowneridentity_id: &u64) -> Option<LandownerIdentity> {
+    LANDOWNER_IDENTITY_STORAGE.with(|service| service.borrow().get(landowneridentity_id))
+}
+
+// Helper function to retrieve OfficialIdentity by ID
+fn _get_official_identity(officialidentity_id: &u64) -> Option<OfficialIdentity> {
+    OFFICIAL_IDENTITY_STORAGE.with(|service| service.borrow().get(officialidentity_id))
+}
+
+// Helper function to retrieve ArbitratorIdentity by ID
+fn _get_arbitrator_identity(arbitratoridentity_id: &u64) -> Option<ArbitratorIdentity> {
+    ARBITRATOR_IDENTITY_STORAGE.with(|service| service.borrow().get(arbitratoridentity_id))
+}
+// Helper function to retrieve BuyerIdentity by ID
+fn _get_buyer_identity(buyeridentity_id: &u64) -> Option<BuyerIdentity> {
+    BUYER_IDENTITY_STORAGE.with(|service| service.borrow().get(buyeridentity_id))
+}
 // Helper functions to get specific entries
 fn _get_land_title(land_title_id: &u64) -> Option<LandTitle> {
     LAND_TITLE_STORAGE.with(|service| service.borrow().get(land_title_id))
