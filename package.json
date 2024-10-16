@@ -15,7 +15,7 @@
   },
   "type": "module",
   "workspaces": [
-    "src/helcon_frontend"
+    "src/land_system_frontend"
   ],
   "dependencies": {
     "chart.js": "^4.4.5",
