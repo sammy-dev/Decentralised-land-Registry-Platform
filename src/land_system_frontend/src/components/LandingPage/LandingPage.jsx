@@ -23,7 +23,7 @@ const LandingPage = () => {
            setIsLoading(false)
            navigate('/landowner')
     } else {
-        alert("something went wrong")
+        alert("Please create an internet identity to access our system")
         setIsLoading(false)
     };
 }
@@ -37,7 +37,7 @@ const LandingPage = () => {
            setIsLoading(false)
            navigate('/government')
     } else {
-        alert("something went wrong")
+        alert("Please create an internet identity to access our system")
         setIsLoading(false)
     };
     };
