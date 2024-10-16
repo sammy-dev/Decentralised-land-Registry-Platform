@@ -2,24 +2,44 @@ import React, { useState } from 'react';
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa'; 
 import blockchain from '../../images/blockchain.jpg'
 import deed from "../../images/deed2.jpg"
+import {getPrincipal} from '../../features/auth/Account'
+import { useDispatch } from 'react-redux';
+import {useNavigate} from "react-router-dom"
 
 const LandingPage = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleLandownerLogin = () => {
+    const handleLandownerLogin = async () => {
+        
         setIsLoading(true);
-        setTimeout(() => {
+        // setTimeout(() => {
             
-            window.location.href = '/landowner';
-        }, 2000); 
+        //     window.location.href = '/landowner';
+        // }, 2000); 
+        const result = await dispatch(getPrincipal());
+        if (getPrincipal.fulfilled.match(result)) {
+           setIsLoading(false)
+           navigate('/landowner')
+    } else {
+        alert("something went wrong")
+        setIsLoading(false)
     };
+}
 
-    const handleGovernmentLogin = () => {
+    const handleGovernmentLogin = async () => {
+       
         setIsLoading(true);
-        setTimeout(() => {
-           
-            window.location.href = '/government';
-        }, 2000); 
+       
+        const result = await dispatch(getPrincipal());
+        if (getPrincipal.fulfilled.match(result)) {
+           setIsLoading(false)
+           navigate('/government')
+    } else {
+        alert("something went wrong")
+        setIsLoading(false)
+    };
     };
 
     if (isLoading) {
