@@ -572,12 +572,13 @@ fn add_landowner(landowneridentity_id: String, name: String, email: String, phon
     Ok(landowner)
 }
 
+// Get Landowner by landowner_identity_id
 #[ic_cdk::query]
-fn get_landowner(id: u64) -> Result<Landowner, Error> {
-    match LANDOWNER_STORAGE.with(|service| service.borrow().get(&id)) {
-        Some(landowner) => Ok(landowner.clone()),
+fn get_landowner(landowner_identity_id: u64) -> Result<Landowner, Error> {
+    match _get_landowner(&landowner_identity_id) {
+        Some(landowner) => Ok(landowner),
         None => Err(Error::NotFound {
-            msg: format!("Landowner with id={} not found", id),
+            msg: format!("Landowner with landowner_identity_id={} not found", landowner_identity_id),
         }),
     }
 }
@@ -641,12 +642,13 @@ fn add_buyer(buyeridentity_id: String, name: String, email: String, phone: Strin
     Ok(buyer)
 }
 
+// Get Buyer by buyer_identity_id
 #[ic_cdk::query]
-fn get_buyer(id: u64) -> Result<Buyer, Error> {
-    match BUYER_STORAGE.with(|service| service.borrow().get(&id)) {
-        Some(buyer) => Ok(buyer.clone()),
+fn get_buyer(buyer_identity_id: u64) -> Result<Buyer, Error> {
+    match _get_buyer(&buyer_identity_id) {
+        Some(buyer) => Ok(buyer),
         None => Err(Error::NotFound {
-            msg: format!("Buyer with id={} not found", id),
+            msg: format!("Buyer with buyer_identity_id={} not found", buyer_identity_id),
         }),
     }
 }
@@ -708,12 +710,13 @@ fn add_government_official(officialidentity_id: String, name: String, department
     Ok(official)
 }
 
+// Get Government Official by official_identity_id
 #[ic_cdk::query]
-fn get_government_official(id: u64) -> Result<GovernmentOfficial, Error> {
-    match GOV_OFFICIAL_STORAGE.with(|service| service.borrow().get(&id)) {
-        Some(official) => Ok(official.clone()),
+fn get_official(official_identity_id: u64) -> Result<GovernmentOfficial, Error> {
+    match _get_official(&official_identity_id) {
+        Some(official) => Ok(official),
         None => Err(Error::NotFound {
-            msg: format!("Government official with id={} not found", id),
+            msg: format!("Government official with official_identity_id={} not found", official_identity_id),
         }),
     }
 }
@@ -781,16 +784,16 @@ fn add_arbitrator(arbitratoridentity_id: String, name: String, expertise: String
     Ok(arbitrator)
 }
 
+// Get Arbitrator by arbitrator_identity_id
 #[ic_cdk::query]
-fn get_arbitrator(id: u64) -> Result<Arbitrator, Error> {
-    match ARBITRATOR_STORAGE.with(|service| service.borrow().get(&id)) {
-        Some(arbitrator) => Ok(arbitrator.clone()),
+fn get_arbitrator(arbitrator_identity_id: u64) -> Result<Arbitrator, Error> {
+    match _get_arbitrator(&arbitrator_identity_id) {
+        Some(arbitrator) => Ok(arbitrator),
         None => Err(Error::NotFound {
-            msg: format!("Arbitrator with id={} not found", id),
+            msg: format!("Arbitrator with arbitrator_identity_id={} not found", arbitrator_identity_id),
         }),
     }
 }
-
 #[ic_cdk::update]
 fn update_arbitrator(id: u64, name: Option<String>, expertise: Option<String>, email: Option<String>, phone: Option<String>, is_active: Option<bool>) -> Result<Arbitrator, Error> {
     let mut arbitrator = match ARBITRATOR_STORAGE.with(|service| service.borrow_mut().get(&id)) {
@@ -1218,20 +1221,23 @@ fn _get_land_transfer(land_transfer_id: &u64) -> Option<LandTransfer> {
     TRANSFER_STORAGE.with(|service| service.borrow().get(land_transfer_id))
 }
 
-fn _get_landowner(landowner_id: &u64) -> Option<Landowner> {
-    LANDOWNER_STORAGE.with(|service| service.borrow().get(landowner_id))
+// Helper function to retrieve Landowner by landowner_identity_id
+fn _get_landowner(landowner_identity_id: &u64) -> Option<Landowner> {
+    LANDOWNER_STORAGE.with(|service| service.borrow().get(landowner_identity_id))
+}
+// Helper function to retrieve Buyer by buyer_identity_id
+fn _get_buyer(buyer_identity_id: &u64) -> Option<Buyer> {
+    BUYER_STORAGE.with(|service| service.borrow().get(buyer_identity_id))
 }
 
-fn _get_buyer(buyer_id: &u64) -> Option<Buyer> {
-    BUYER_STORAGE.with(|service| service.borrow().get(buyer_id))
+// Helper function to retrieve GovernmentOfficial by official_identity_id
+fn _get_official(official_identity_id: &u64) -> Option<GovernmentOfficial> {
+    GOV_OFFICIAL_STORAGE.with(|service| service.borrow().get(official_identity_id))
 }
 
-fn _get_government_official(official_id: &u64) -> Option<GovernmentOfficial> {
-    GOV_OFFICIAL_STORAGE.with(|service| service.borrow().get(official_id))
-}
-
-fn _get_arbitrator(arbitrator_id: &u64) -> Option<Arbitrator> {
-    ARBITRATOR_STORAGE.with(|service| service.borrow().get(arbitrator_id))
+// Helper function to retrieve Arbitrator by arbitrator_identity_id
+fn _get_arbitrator(arbitrator_identity_id: &u64) -> Option<Arbitrator> {
+    ARBITRATOR_STORAGE.with(|service| service.borrow().get(arbitrator_identity_id))
 }
 
 fn _get_dispute(dispute_id: &u64) -> Option<Dispute> {
