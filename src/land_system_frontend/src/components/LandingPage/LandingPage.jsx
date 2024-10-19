@@ -1,45 +1,38 @@
 import React, { useState } from 'react';
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa'; 
-import blockchain from '../../images/blockchain.jpg'
-import deed from "../../images/deed2.jpg"
-import {getPrincipal} from '../../features/auth/Account'
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
+
+import b from "../../images/blockchain-image.webp"
+import { getPrincipal } from '../../features/auth/Account';
 import { useDispatch } from 'react-redux';
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleLandownerLogin = async () => {
-        
         setIsLoading(true);
-        // setTimeout(() => {
-            
-        //     window.location.href = '/landowner';
-        // }, 2000); 
         const result = await dispatch(getPrincipal());
         if (getPrincipal.fulfilled.match(result)) {
-           setIsLoading(false)
-           navigate('/landowner')
-    } else {
-        alert("Please create an internet identity to access our system")
-        setIsLoading(false)
+            setIsLoading(false);
+            navigate('/landowner');
+        } else {
+            alert("Please create an internet identity to access our system");
+            setIsLoading(false);
+        }
     };
-}
 
     const handleGovernmentLogin = async () => {
-       
         setIsLoading(true);
-       
         const result = await dispatch(getPrincipal());
         if (getPrincipal.fulfilled.match(result)) {
-           setIsLoading(false)
-           navigate('/government')
-    } else {
-        alert("Please create an internet identity to access our system")
-        setIsLoading(false)
-    };
+            setIsLoading(false);
+            navigate('/government');
+        } else {
+            alert("Please create an internet identity to access our system");
+            setIsLoading(false);
+        }
     };
 
     if (isLoading) {
@@ -53,36 +46,34 @@ const LandingPage = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAF3E0] p-5">
             <div className="w-full max-w-5xl text-center">
+                {/* Professional Header */}
                 <h1 className="text-4xl font-bold text-[#2E7D32] mb-4">
-                    Revolutionizing Land Ownership in Kenya with Blockchain
+                    Revolutionizing Global Land Ownership with Blockchain Technology
                 </h1>
                 <p className="text-lg text-gray-700 mb-8">
-                    A secure, transparent, and efficient platform for land registration and ownership verification.
+                    Our platform ensures secure, transparent, and efficient land registration systems for governments, private entities, and individuals across the world.
                 </p>
 
+                {/* Image Section */}
                 <div className="relative mb-6 w-full h-64">
-                    <img 
-                        src={deed}
-                        alt="land"
-                        className="absolute inset-0 w-full h-full object-fit rounded-lg shadow-lg"
-                    />
-                    <img 
-                        src={blockchain}
-                        alt="Blockchain"
-                        className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg opacity-30" 
+                    <img
+                        src={b}  // Use the new image 'b'
+                        alt="Land and Blockchain"
+                        className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
                     />
                 </div>
 
-                {/* Button Section */}
+
+                {/* Call to Action Buttons */}
                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-                    <button 
+                    <button
                         className="bg-[#2E7D32] text-white font-semibold py-2 px-4 rounded shadow hover:bg-[#256029] transition"
                         onClick={handleLandownerLogin}
                         disabled={isLoading}
                     >
                         Login as Landowner
                     </button>
-                    <button 
+                    <button
                         className="bg-[#8B4513] text-white font-semibold py-2 px-4 rounded shadow hover:bg-[#6F3F2D] transition"
                         onClick={handleGovernmentLogin}
                         disabled={isLoading}
@@ -91,42 +82,74 @@ const LandingPage = () => {
                     </button>
                 </div>
 
+                {/* Platform Explanation Section */}
                 <div className="mt-8 text-gray-600">
-                    <p>Learn more about how our platform works:</p>
-                    <a 
-                        href="#learn-more" 
+                    <p>Our solution is built for governments, landowners, and stakeholders across the globe to streamline land registration processes:</p>
+                    <a
+                        href="#learn-more"
                         className="text-[#42A5F5] hover:underline"
                     >
-                        Learn More
+                        Learn More About Our Features
                     </a>
                 </div>
 
-                {/* New Information Sections */}
+                {/* Why Choose Our Platform Section */}
                 <section id="learn-more" className="mt-12">
-                    <h2 className="text-3xl font-bold text-[#2E7D32] mb-4">Why Choose Our Platform?</h2>
+                    <h2 className="text-3xl font-bold text-[#2E7D32] mb-4">Why Governments Trust Our Platform?</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="bg-white p-4 rounded-lg shadow">
-                            <h3 className="text-xl font-semibold text-[#2E7D32]">Transparency</h3>
+                            <h3 className="text-xl font-semibold text-[#2E7D32]">Global Compliance</h3>
                             <p className="text-gray-600">
-                                Our blockchain technology ensures that all land transactions are publicly accessible, reducing fraud and increasing trust.
+                                Built with legal frameworks in mind, our system adapts to various country-specific regulations, ensuring global compliance in land registry systems.
                             </p>
                         </div>
                         <div className="bg-white p-4 rounded-lg shadow">
-                            <h3 className="text-xl font-semibold text-[#2E7D32]">Security</h3>
+                            <h3 className="text-xl font-semibold text-[#2E7D32]">Data Integrity & Security</h3>
                             <p className="text-gray-600">
-                                Utilizing advanced cryptography, our platform secures all sensitive data, ensuring your information is protected.
+                                Through advanced cryptographic techniques, your land registry data is securely stored and immutable, preventing tampering or unauthorized access.
                             </p>
                         </div>
                         <div className="bg-white p-4 rounded-lg shadow">
-                            <h3 className="text-xl font-semibold text-[#2E7D32]">Efficiency</h3>
+                            <h3 className="text-xl font-semibold text-[#2E7D32]">Interoperability</h3>
                             <p className="text-gray-600">
-                                Streamline land registration and transfer processes, significantly reducing time and paperwork involved.
+                                Our platform integrates with existing land management systems through open APIs, providing seamless data exchange between government departments and agencies.
                             </p>
                         </div>
                         <div className="bg-white p-4 rounded-lg shadow">
-                            <h3 className="text-xl font-semibold text-[#2E7D32]">Decentralization</h3>
+                            <h3 className="text-xl font-semibold text-[#2E7D32]">Fraud Prevention</h3>
                             <p className="text-gray-600">
-                                Our decentralized model removes the need for intermediaries, lowering costs and increasing accessibility for all users.
+                                By leveraging blockchain's decentralized nature, fraudulent land transactions are significantly reduced, ensuring trustworthy land records.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Use Cases Section */}
+                <section className="mt-12">
+                    <h2 className="text-3xl font-bold text-[#2E7D32] mb-4">Real-World Use Cases</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="bg-white p-4 rounded-lg shadow">
+                            <h3 className="text-xl font-semibold text-[#2E7D32]">Public Land Records Management</h3>
+                            <p className="text-gray-600">
+                                Governments around the world use our platform to maintain accurate, up-to-date public land records that are easily accessible to stakeholders.
+                            </p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg shadow">
+                            <h3 className="text-xl font-semibold text-[#2E7D32]">Land Dispute Resolution</h3>
+                            <p className="text-gray-600">
+                                Our system helps resolve land ownership disputes quickly by providing tamper-proof transaction histories and land titles, reducing costly legal battles.
+                            </p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg shadow">
+                            <h3 className="text-xl font-semibold text-[#2E7D32]">Land Transfer & Acquisition</h3>
+                            <p className="text-gray-600">
+                                Streamline the process of land transfers and acquisitions by digitizing and automating approvals, reducing administrative overhead and delays.
+                            </p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg shadow">
+                            <h3 className="text-xl font-semibold text-[#2E7D32]">Sustainable Development Planning</h3>
+                            <p className="text-gray-600">
+                                Governments can use our platform to plan and manage sustainable land development projects, ensuring environmental and economic goals are aligned.
                             </p>
                         </div>
                     </div>
@@ -134,12 +157,12 @@ const LandingPage = () => {
 
                 {/* Call to Action Section */}
                 <section className="mt-12">
-                    <h2 className="text-3xl font-bold text-[#2E7D32] mb-4">Get Started Today!</h2>
+                    <h2 className="text-3xl font-bold text-[#2E7D32] mb-4">Empowering Governments & Citizens Alike</h2>
                     <p className="text-gray-600 mb-6">
-                        Join our community of landowners, buyers, and government officials who are transforming land ownership in Kenya. Register now to experience the future of land management!
+                        Whether you're a government official, landowner, or part of a community, our platform empowers you with the tools needed to make land ownership transparent, secure, and efficient. Join us today and be part of the revolution!
                     </p>
                     <button className="bg-[#2E7D32] text-white font-semibold py-2 px-4 rounded shadow hover:bg-[#256029] transition">
-                        Register Now
+                        Get Started
                     </button>
                 </section>
             </div>
@@ -149,33 +172,18 @@ const LandingPage = () => {
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
                         <div className="text-sm">
-                            <p>&copy; 2024 PAWA INNOVATORS. All rights reserved.</p>
+                            <p>&copy; 2024 PAWA Land Registry. All rights reserved.</p>
                         </div>
-                        <div className="flex space-x-4 mt-2 sm:mt-0">
-                            <a href="/" className="hover:underline">About Us</a>
-                            <a href="/" className="hover:underline">Contact</a>
-                            <a href="/" className="hover:underline">Terms of Service</a>
-                            <a href="/" className="hover:underline">Privacy Policy</a>
+                        <div className="flex space-x-4 text-lg">
+                            <FaFacebook className="hover:text-gray-400" />
+                            <FaTwitter className="hover:text-gray-400" />
+                            <FaLinkedin className="hover:text-gray-400" />
+                            <FaInstagram className="hover:text-gray-400" />
                         </div>
                     </div>
-                    <div className="flex justify-center space-x-4 mb-4">
-                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
-                            <FaFacebook className="w-6 h-6" />
-                        </a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
-                            <FaTwitter className="w-6 h-6" />
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
-                            <FaLinkedin className="w-6 h-6" />
-                        </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
-                            <FaInstagram className="w-6 h-6" />
-                        </a>
-                    </div>
+                    <p className="text-sm">Designed for governments and landowners worldwide.</p>
                 </div>
             </footer>
-
-            
         </div>
     );
 };
