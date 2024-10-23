@@ -1,61 +1,90 @@
-# `helcon`
+# Decentralized Land Registry Platform
 
-Welcome to your new `helcon` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+The Decentralized Land Registry Platform is a blockchain-based system that allows users to securely register, verify, and transfer land ownership. Built on the Internet Computer (ICP), the platform offers a transparent and tamper-proof mechanism for land management, reducing the risk of fraud and providing a reliable system for property transactions. The project comprises two canisters: one for the frontend interface and another for backend logic.
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+## Features
 
-To learn more before you start working with `helcon`, see the following documentation available online:
+- **Land Registration**: Users can register land parcels, including property details such as location, size, and ownership information.
+- **Ownership Transfer**: Registered property owners can securely transfer ownership to another user.
+- **Verification**: Ensure the authenticity of land titles through blockchain technology.
+- **Candid Interface for Backend**: Interact with the backend system using the Candid interface for administrative or complex tasks.
+- **Decentralization**: The entire system operates on a decentralized platform, ensuring transparency and reducing the chances of corruption or tampering.
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Rust Canister Development Guide](https://internetcomputer.org/docs/current/developer-docs/backend/rust/)
-- [ic-cdk](https://docs.rs/ic-cdk)
-- [ic-cdk-macros](https://docs.rs/ic-cdk-macros)
-- [Candid Introduction](https://internetcomputer.org/docs/current/developer-docs/backend/candid/)
+## Project Structure
 
-If you want to start working on your project right away, you might want to try the following commands:
+The project consists of two main components:
+1. **Frontend**: The user interface where land registration, ownership transfers, and verification actions are performed.
+2. **Backend**: The smart contract logic that manages the land records and handles all operations related to land registry functions.
 
-```bash
-cd helcon/
-dfx help
-dfx canister --help
-```
+## Deployed Links
 
-## Running the project locally
+- **Frontend Canister (Browser)**:  
+  [Land System Frontend](https://dydyq-6aaaa-aaaag-amkha-cai.icp0.io/)
 
-If you want to test your project locally, you can use the following commands:
+- **Backend Canister (Candid Interface)**:  
+  [Land System Backend](https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/?id=dratm-iiaaa-aaaag-amkgq-cai)
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+## Installation & Setup
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
+### Prerequisites
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
+- Install DFX (Dfinity SDK) on your local machine to interact with ICP canisters.
+- Node.js for managing dependencies.
+- Vite for frontend development.
 
-If you have made changes to your backend canister, you can generate a new candid interface with
+### Steps
 
-```bash
-npm run generate
-```
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/sammy-dev/Decentralised-land-Registry-Platform
+   cd land-registry-platform
+   ```
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-If you are making frontend changes, you can start a development server with
+3. **Deploy Canisters**:
+   You can deploy the frontend and backend canisters on the Internet Computer using DFX commands. Ensure you have the correct permissions and network access to deploy canisters.
 
-```bash
-npm start
-```
+4. **Run Frontend Locally**:
+   ```bash
+   npm run dev
+   ```
+   This will start the frontend on a local server, allowing you to interact with the system for testing.
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
+5. **Access Backend**:  
+   You can access the backend through the Candid interface provided above. This interface allows interaction with the deployed canister and its functions directly.
 
-### Note on frontend environment variables
+### Canister Interaction
 
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
+#### Register Land
+To register land, users input property details such as location, size, and ownership. The frontend sends this information to the backend canister, which stores it securely on the blockchain.
 
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+#### Transfer Ownership
+The current owner can initiate a transfer of ownership through the platform by selecting the land parcel and the recipient's details. The backend verifies the transaction and updates the ownership on-chain.
+
+#### Verify Land Title
+Any user can verify the authenticity of a land title by entering the property details. The backend checks the blockchain records and returns a verification status.
+
+## Technologies Used
+
+- **DFX**: For deploying and interacting with ICP canisters.
+- **Vite**: A fast development build tool for the frontend.
+- **Candid Interface**: For backend interactions and direct smart contract calls.
+- **ICP Blockchain**: Ensures decentralized and secure land registration and ownership management.
+
+## Contributing
+
+Contributions are welcome! Feel free to fork this project, open issues, and submit pull requests.
+
+### License
+
+This project is licensed under the MIT License.
+
+## Contact
+
+For any questions or support, feel free to reach out via email or visit the deployed platform using the links provided above.
+
+Enjoy using the Decentralized Land Registry Platform!
