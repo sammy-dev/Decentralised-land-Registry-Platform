@@ -1,5 +1,5 @@
 [workspace]
 members = [
-    "src/helcon_backend"
+    "src/land_system_backend"
 ]
 resolver = "2"

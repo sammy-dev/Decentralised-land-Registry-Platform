@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthClient } from '@dfinity/auth-client';
 import { HttpAgent } from '@dfinity/agent';
-// import { helcon_backend } from '../../../../declarations/helcon_backend';
+// import { land_system_backend } from '../../../../declarations/land_system_backend';
 let authClient;
 const initializeAuthClient = async () => {
    if (!authClient) {

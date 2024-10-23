@@ -1,13 +1,13 @@
 {
   "canisters": {
-    "helcon_backend": {
-      "candid": "src/helcon_backend/helcon_backend.did",
-      "package": "helcon_backend",
+    "land_system_backend": {
+      "candid": "src/land_system_backend/land_system_backend.did",
+      "package": "land_system_backend",
       "type": "rust"
     },
     "land_system_frontend": {
       "dependencies": [
-        "helcon_backend"
+        "land_system_backend"
       ],
       "source": [
         "src/land_system_frontend/dist"
