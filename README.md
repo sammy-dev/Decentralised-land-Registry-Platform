@@ -78,13 +78,3 @@ Any user can verify the authenticity of a land title by entering the property de
 ## Contributing
 
 Contributions are welcome! Feel free to fork this project, open issues, and submit pull requests.
-
-### License
-
-This project is licensed under the MIT License.
-
-## Contact
-
-For any questions or support, feel free to reach out via email or visit the deployed platform using the links provided above.
-
-Enjoy using the Decentralized Land Registry Platform!
