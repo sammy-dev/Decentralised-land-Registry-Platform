@@ -1,5 +1,5 @@
 [workspace]
 members = [
-    "src/land_system_backend"
+    "src/decentrassets_backend"
 ]
 resolver = "2"

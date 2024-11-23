@@ -1,8 +1,8 @@
 {
-  "helcon_backend": {
+  "decentrassets_backend": {
     "ic": "dratm-iiaaa-aaaag-amkgq-cai"
   },
-  "land_system_frontend": {
+  "decentrassets_frontend": {
     "ic": "dydyq-6aaaa-aaaag-amkha-cai"
   }
 }
