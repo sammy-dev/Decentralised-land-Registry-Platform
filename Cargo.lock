@@ -143,6 +143,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e8566979429cf69b49a5c740c60791108e86440e8be149bbea4fe54d2c32d6e2"
 
 [[package]]
+name = "decentrassets_backend"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-stable-structures",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "digest"
 version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -231,17 +242,6 @@ name = "itoa"
 version = "1.0.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49f1f14873335454500d59611f1cf4a4b0f786f9ac11f4312a78e4cf2566695b"
-
-[[package]]
-name = "land_system_backend"
-version = "0.1.0"
-dependencies = [
- "candid",
- "ic-cdk",
- "ic-stable-structures",
- "serde",
- "serde_json",
-]
 
 [[package]]
 name = "lazy_static"

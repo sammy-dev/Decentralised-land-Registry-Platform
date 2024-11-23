@@ -15,7 +15,7 @@
   },
   "type": "module",
   "workspaces": [
-    "src/land_system_frontend"
+    "src/decentrassets_frontend"
   ],
   "dependencies": {
     "chart.js": "^4.4.5",

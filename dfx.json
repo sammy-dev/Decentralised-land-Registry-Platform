@@ -1,19 +1,19 @@
 {
   "canisters": {
-    "land_system_backend": {
-      "candid": "src/land_system_backend/land_system_backend.did",
-      "package": "land_system_backend",
+    "decentrassets_backend": {
+      "candid": "src/decentrassets_backend/decentrassets_backend.did",
+      "package": "decentrassets_backend",
       "type": "rust"
     },
-    "land_system_frontend": {
+    "decentrassets_frontend": {
       "dependencies": [
-        "land_system_backend"
+        "decentrassets_backend"
       ],
       "source": [
-        "src/land_system_frontend/dist"
+        "src/decentrassets_frontend/dist"
       ],
       "type": "assets",
-      "workspace": "land_system_frontend" 
+      "workspace": "decentrassets_frontend" 
     },
     "internet_identity": {
       "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
