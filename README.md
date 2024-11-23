@@ -1,80 +1,103 @@
-# Decentralized Land Registry Platform
+# **Decentralized Asset Registry and Trading Platform (DARTP)**  
 
-The Decentralized Land Registry Platform is a blockchain-based system that allows users to securely register, verify, and transfer land ownership. Built on the Internet Computer (ICP), the platform offers a transparent and tamper-proof mechanism for land management, reducing the risk of fraud and providing a reliable system for property transactions. The project comprises two canisters: one for the frontend interface and another for backend logic.
+The **Decentralized Asset Registry and Trading Platform (DARTP)** is a blockchain-based solution designed to streamline the registration, verification, and trading of assets such as real estate, vehicles, or intellectual property. Built on the **Internet Computer Protocol (ICP)**, this platform ensures secure, transparent, and tamper-proof transactions, making asset management and trading more efficient.  
 
-## Features
+## **Features**  
 
-- **Land Registration**: Users can register land parcels, including property details such as location, size, and ownership information.
-- **Ownership Transfer**: Registered property owners can securely transfer ownership to another user.
-- **Verification**: Ensure the authenticity of land titles through blockchain technology.
-- **Candid Interface for Backend**: Interact with the backend system using the Candid interface for administrative or complex tasks.
-- **Decentralization**: The entire system operates on a decentralized platform, ensuring transparency and reducing the chances of corruption or tampering.
+- **Asset Registration**:  
+  Register assets with comprehensive details, including type, value, and ownership information.  
 
-## Project Structure
+- **Ownership Transfer**:  
+  Facilitate secure ownership transfers with blockchain-verified records.  
 
-The project consists of two main components:
-1. **Frontend**: The user interface where land registration, ownership transfers, and verification actions are performed.
-2. **Backend**: The smart contract logic that manages the land records and handles all operations related to land registry functions.
+- **Asset Trading**:  
+  Trade registered assets seamlessly via an integrated decentralized marketplace.  
 
-## Deployed Links
+- **Verification System**:  
+  Verify asset authenticity using blockchain-backed records.  
 
-- **Frontend Canister (Browser)**:  
-  [Land System Frontend](https://dydyq-6aaaa-aaaag-amkha-cai.icp0.io/)
+- **Candid Backend Interface**:  
+  Administrators and advanced users can interact with backend operations directly via the **Candid interface**.  
 
-- **Backend Canister (Candid Interface)**:  
-  [Land System Backend](https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/?id=dratm-iiaaa-aaaag-amkgq-cai)
+- **Decentralized Infrastructure**:  
+  Operates on a blockchain network, ensuring transparency and preventing fraud or unauthorized modifications.  
 
-## Installation & Setup
+## **Installation & Setup**  
 
-### Prerequisites
+### **Prerequisites**  
+- **DFX**: Install the Dfinity SDK to deploy and interact with ICP canisters.  
+- **Node.js**: Required for managing dependencies.  
+- **Vite**: For frontend development and build processes.  
 
-- Install DFX (Dfinity SDK) on your local machine to interact with ICP canisters.
-- Node.js for managing dependencies.
-- Vite for frontend development.
+### **Steps**  
 
-### Steps
+1. **Clone the Repository**:  
+   ```bash  
+   git clone https://github.com/sammy-dev/Decentralized-Asset-Registry-and-Trading-Platform  
+   cd Decentralized-Asset-Registry-and-Trading-Platform  
+   ```  
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/sammy-dev/Decentralised-land-Registry-Platform
-   cd land-registry-platform
-   ```
+2. **Install Dependencies**:  
+   ```bash  
+   npm install  
+   ```  
 
-2. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
+3. **Deploy Canisters**:  
+   Use DFX commands to deploy the frontend and backend canisters to the Internet Computer. Ensure proper permissions and network access.  
 
-3. **Deploy Canisters**:
-   You can deploy the frontend and backend canisters on the Internet Computer using DFX commands. Ensure you have the correct permissions and network access to deploy canisters.
-
-4. **Run Frontend Locally**:
-   ```bash
-   npm run dev
-   ```
-   This will start the frontend on a local server, allowing you to interact with the system for testing.
+4. **Run Frontend Locally**:  
+   ```bash  
+   npm run dev  
+   ```  
+   This command starts a development server for local testing of the frontend.  
 
 5. **Access Backend**:  
-   You can access the backend through the Candid interface provided above. This interface allows interaction with the deployed canister and its functions directly.
+   Interact with the backend canister directly using the provided Candid interface link.  
 
-### Canister Interaction
+---
 
-#### Register Land
-To register land, users input property details such as location, size, and ownership. The frontend sends this information to the backend canister, which stores it securely on the blockchain.
+## **Canister Interaction**  
 
-#### Transfer Ownership
-The current owner can initiate a transfer of ownership through the platform by selecting the land parcel and the recipient's details. The backend verifies the transaction and updates the ownership on-chain.
+### **1. Register Asset**  
+Users can input detailed information about an asset, including type, value, and ownership details. The backend securely stores this data on the blockchain.  
 
-#### Verify Land Title
-Any user can verify the authenticity of a land title by entering the property details. The backend checks the blockchain records and returns a verification status.
+### **2. Transfer Ownership**  
+Asset owners can initiate ownership transfers by selecting the asset and entering recipient details. The backend verifies and records the transaction on the blockchain.  
 
-## Technologies Used
+### **3. Trade Assets**  
+Users can list assets for sale or make purchase offers. The platform matches buyers and sellers while ensuring secure transactions through the smart contract.  
 
-- **DFX**: For deploying and interacting with ICP canisters.
-- **Vite**: A fast development build tool for the frontend.
-- **Candid Interface**: For backend interactions and direct smart contract calls.
-- **ICP Blockchain**: Ensures decentralized and secure land registration and ownership management.
+### **4. Verify Asset**  
+Any user can verify the authenticity of an asset by querying its blockchain records using the asset's unique identifier.  
 
-## Contributing
+---
 
-Contributions are welcome! Feel free to fork this project, open issues, and submit pull requests.
+## **Technologies Used**  
+
+- **DFX**: For deploying and interacting with Internet Computer canisters.  
+- **Vite**: Provides an optimized development environment for the frontend.  
+- **Candid Interface**: Enables direct interactions with the backend smart contract.  
+- **ICP Blockchain**: Powers the decentralized asset registry and ensures security and transparency.  
+
+---
+
+## **Contributing**  
+
+Contributions are welcome! Fork the repository, raise issues, or submit pull requests to improve the platform.  
+
+---
+
+## **About**  
+
+- **Project Name**: Decentralized Asset Registry and Trading Platform (DARTP)  
+- **Repository**: [GitHub Repository](https://github.com/sammy-dev/Decentralized-Asset-Registry-and-Trading-Platform)  
+- **Contributors**:  
+  - [Sammy Mulandi (@sammy-dev)](https://github.com/sammy-dev)  
+  - [Kelvin Macharia (@gakiokevin)](https://github.com/gakiokevin)  
+  - [Ian Muriuki (@ianmuriuki)](https://github.com/ianmuriuki)  
+
+## **Suggested Workflows**  
+
+- Use **DFX** to deploy and manage canisters.  
+- Employ **Vite** for rapid frontend development.  
+- Leverage the **Candid interface** for advanced backend operations and debugging.  
