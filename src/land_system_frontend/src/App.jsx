@@ -13,22 +13,13 @@ import RegisterNewTitle from "./components/landowner/Register";
 import DisputeClaims from './components/landowner/DisputesPage';
 import TransferOwnership from './components/landowner/TransferOwnership';
 import VerifyTitleOwnership from './components/landowner/Verify';
+import homePage from './components/common/Homepage'
 
 const App = () => {
   // State to manage dark mode
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Effect to apply the theme class to the body
-  useEffect(() => {
-    const body = document.body;
-    if (isDarkMode) {
-      body.classList.add('bg-gray-900', 'text-white');
-      body.classList.remove('bg-white', 'text-black');
-    } else {
-      body.classList.add('bg-white', 'text-black');
-      body.classList.remove('bg-gray-900', 'text-white');
-    }
-  }, [isDarkMode]);
+ 
 
   return (
     <Router>
