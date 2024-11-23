@@ -13,7 +13,7 @@ import RegisterNewTitle from "./components/landowner/Register";
 import DisputeClaims from './components/landowner/DisputesPage';
 import TransferOwnership from './components/landowner/TransferOwnership';
 import VerifyTitleOwnership from './components/landowner/Verify';
-import homePage from './components/common/Homepage'
+import Homepage from './components/common/Homepage'
 
 const App = () => {
   // State to manage dark mode
@@ -24,7 +24,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+
+        <Route path="/" element={<Homepage />} />
         {/* Pass isDarkMode and setIsDarkMode as props to DashboardLayout */}
         <Route 
           path="/government/*" 

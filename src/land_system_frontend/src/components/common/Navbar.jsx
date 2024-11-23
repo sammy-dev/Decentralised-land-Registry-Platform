@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Menu, X, Globe2 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import { getPrincipal } from '../../features/auth/Account';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,6 +19,7 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
 
   const handleLandownerLogin = async () => {
    setIsLoading(true);
@@ -64,7 +66,8 @@ export default function Navbar() {
             <NavLink to="/contact" className="text-gray-300 hover:text-white transition-colors">
               Contact
             </NavLink>
-            <button className="px-6 py-2 bg-yellow-400 text-blue-900 font-semibold rounded-lg hover:bg-yellow-500 transition-colors">
+            <button className="px-6 py-2 bg-yellow-400 text-blue-900 font-semibold rounded-lg hover:bg-yellow-500 transition-colors"
+            onClick={handleLandownerLogin}>
               Sign In
             </button>
           </div>
