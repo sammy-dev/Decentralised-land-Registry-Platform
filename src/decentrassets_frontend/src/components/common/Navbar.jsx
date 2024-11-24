@@ -54,14 +54,14 @@ export default function Navbar() {
             <NavLink to="/about" className="text-gray-300 hover:text-white transition-colors">
               About
             </NavLink>
-            <NavLink to="/features" className="text-gray-300 hover:text-white transition-colors">
-              Features
+            <NavLink to="/user" className="text-gray-300 hover:text-white transition-colors">
+              explore
             </NavLink>
-            <NavLink to="/assets" className="text-gray-300 hover:text-white transition-colors">
+            <NavLink to="/trader" className="text-gray-300 hover:text-white transition-colors">
               Assets
             </NavLink>
-            <NavLink to="/blog" className="text-gray-300 hover:text-white transition-colors">
-              Blog
+            <NavLink to="/verification" className="text-gray-300 hover:text-white transition-colors">
+              verify
             </NavLink>
             <NavLink to="/contact" className="text-gray-300 hover:text-white transition-colors">
               Contact
